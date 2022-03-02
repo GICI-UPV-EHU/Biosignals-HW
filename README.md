@@ -6,6 +6,6 @@
 
 Este repositorio se destinará a los desarrollos HW con placas low-cost: Medida y comunicación.
 
-Estos desarrollos van encaminados a controlar el tipo y flujo de datos que llegan a los diferntes dispositivos Low-cost desde los electrodos y sensores. Además, se estudiarán igualmente cómo se pueden gestionar las señales recibidas para prepararlas para su envía vía wifi.
+Estos desarrollos van encaminados a controlar el tipo y flujo de datos que llegan a los diferentes dispositivos Low-cost desde los electrodos y sensores. Además, se estudiarán igualmente cómo se pueden gestionar las señales recibidas para prepararlas para su envía vía wifi.
 
 Inicialmente estará destinado al trabajo que desarrollará Imanol Ayude en su TFM, en el marco del Máster en Ingeniería de Control, Automatización y Robótica.
