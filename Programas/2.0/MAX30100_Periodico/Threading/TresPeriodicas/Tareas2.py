@@ -11,9 +11,8 @@ def Tarea_Periodica_Sensores_3Arr (tiempo_inicio, Identificador, Periodo, Plazo,
             Funcion(array1, array2, arrayT)
             t_prueba=time.time()
             if (time.time()-next_time) > Plazo:
-            
                 error = error + 1
-                print(" Abortada : Tarea ", Identificador)
+                print(" Abort:T", Identificador)
                 if error == 5:
                     break
             next_time = next_time + Periodo
@@ -37,7 +36,7 @@ def Tarea_Periodica_Sensores_2Arr (tiempo_inicio, Identificador, Periodo, Plazo,
             if (time.time()-next_time) > Plazo:
                 
                 error = error + 1
-                print(" Abortada: Tarea ", Identificador)
+                print(" Abort:T", Identificador)
                 if error == 5:
                     break
             
@@ -61,7 +60,7 @@ def Tarea_Periodica_Sensores_5Arr_Duerme_Ini (tiempo_inicio, Identificador, Peri
             if (time.time()-next_time) > Plazo:
             
                 error = error + 1
-                print(" Abortada : Tarea ", Identificador)
+                print(" Abort:T", Identificador)
 
                 if error == 5:
                     break

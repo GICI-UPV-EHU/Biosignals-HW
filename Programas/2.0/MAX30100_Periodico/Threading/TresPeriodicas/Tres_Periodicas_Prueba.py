@@ -17,6 +17,7 @@
 
 import multiprocessing as mp # Biblioteca que se encarga de generar procesos (Tareas)
 import max30100 # Biblioteca con la cual se utiliza en sensor MAX30100
+from datetime import datetime
 import time
 import Tareas2
 import csv
@@ -24,6 +25,8 @@ import csv
 # ------------ Funciones que irán dentro de las tareas ------------ #
 
 def CogerGuardarDatosPOX(a_ir, a_r, a_t):
+        a_t.append(datetime.now().strftime('%M:%S.%f'))
+        
         rojo = 0
         infrarrojo = 0
         mx30.read_sensor()
@@ -34,12 +37,14 @@ def CogerGuardarDatosPOX(a_ir, a_r, a_t):
     
         a_ir.append(infrarrojo)
         a_r.append(rojo)
-        a_t.append(time.strftime('%d, %m, %Y --> %H:%M:%S', time.localtime()))
+        #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
+
 
 def CogerGuardarDatosGSR(a_pox, a_t):
         global a
         a_pox.append(a)
-        a_t.append(time.strftime('%d, %m, %Y --> %H:%M:%S', time.localtime()))
+        #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
+        a_t.append(datetime.now().strftime('%M:%S.%f'))
         a = a + 1
         
 def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
@@ -92,8 +97,8 @@ if __name__ == "__main__":
     
     tiempo0 = time.time() # Tiempo inicial
     
-    tarea1 = mp.Process(target = Tareas2.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.0117647, 0.011, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
-    tarea2 = mp.Process(target = Tareas2.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.05, 0.01, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
+    tarea1 = mp.Process(target = Tareas2.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.02, 0.015, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
+    tarea2 = mp.Process(target = Tareas2.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.05, 0.04, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
     tarea3 = mp.Process(target = Tareas2.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 60, 60, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
     
     tarea1.start()
