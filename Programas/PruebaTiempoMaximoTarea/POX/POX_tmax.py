@@ -13,13 +13,11 @@
 
 # ---------------------------------- Programa ---------------------------------- #
 
-from asyncore import loop
 import multiprocessing as mp # Biblioteca que se encarga de generar procesos (Tareas)
 import max30100 # Biblioteca con la cual se utiliza en sensor MAX30100
 from datetime import datetime
 import time
 import TareasPruebaPOX
-import csv
 
 # ------------ Funciones que irán dentro de las tareas ------------ #
 
