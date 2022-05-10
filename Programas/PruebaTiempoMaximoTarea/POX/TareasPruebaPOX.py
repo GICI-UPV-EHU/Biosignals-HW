@@ -8,7 +8,7 @@ def Tarea_Periodica_Sensores_3Arr (tiempo_inicio, Identificador, Periodo, Plazo,
     time.sleep(0.1 - (time.time() - tiempo_inicio))
     next_time = time.time()
     error = 0
-    for i in range(0, 4500): #######
+    for i in range(0, 3000): #######
         
         t_prueba=time.time()
         Funcion(array1, array2, arrayT)
@@ -25,7 +25,7 @@ def Tarea_Periodica_Sensores_3Arr (tiempo_inicio, Identificador, Periodo, Plazo,
     
     t_max = 0.0
     
-    with open ('/home/pi/Desktop/Data/GSR.csv', "w") as GSR_CSV:
+    with open ('/home/pi/Desktop/GSR.csv', "w") as GSR_CSV:
         w = csv.writer(GSR_CSV)
         for i in range(len(a_tmax)):
             w.writerow([a_tmax[i]])

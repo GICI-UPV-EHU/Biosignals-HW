@@ -53,7 +53,7 @@ if __name__ == "__main__":
     
     tiempo0 = time.time() # Tiempo inicial
     
-    tarea1 = mp.Process(target = TareasPruebaPOX.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.015, 0.0121, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
+    tarea1 = mp.Process(target = TareasPruebaPOX.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.02, 0.015, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
     
     tarea1.start()
     
