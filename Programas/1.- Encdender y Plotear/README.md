@@ -5,4 +5,5 @@
 </p>
 
 En esta carpeta se encuentras los primeros pasos dados. El primer programa que adquiere datos del sensor
-y el primer programa qmediante el cual se presentan estos datos en una gráfica.
+y el primer programa mediante el cual se presentan estos datos en una gráfica. </p>
+Además de las bibliotecas desarrolladas y encontradas en internet sobre este sensor
