@@ -9,5 +9,5 @@ Existen dos pogramas:</p>
         - Plot_periodico: se recogen datos durante un periodo, y después se muestran en la gráfica</p>
 No hay ningún criterio de tiempo real y se produce time-slicing (Se va perdiendo tiempo en las tareas)</p>
 </p>
-En ambos casos, se abriráuna ventana con dos gráficas, en la superior aparecerán los datos correspondientes
+En ambos casos, se abrirá una ventana con dos gráficas, en la superior aparecerán los datos correspondientes
 a las medidas tomadas por el sensor infrarrojo, y en la inferior, los correspondientes al rojo.
