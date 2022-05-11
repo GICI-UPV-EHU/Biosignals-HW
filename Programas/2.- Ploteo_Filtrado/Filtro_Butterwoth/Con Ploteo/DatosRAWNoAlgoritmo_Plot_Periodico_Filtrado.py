@@ -2,6 +2,8 @@ import datetime as dt
 import matplotlib.pyplot as plt
 import max30100
 import time
+import numpy
+from scipy import signal
 
 i=1
 
@@ -60,20 +62,19 @@ while 1:
     t_ini = time.time()
     t_duracion_entero=0
     t_asd=0
-    while t_duracion_entero<5:
+    while t_duracion_entero<1:
         
-        if t_asd == 0 or t_asd>0.05:
+        if t_asd == 0 or t_asd>1/65:
             t_asd =0 
             t_ini1=time.time()
             animate(i, x_Tiempo, y_Ir, y_Rojo)
-            print(x_Tiempo)
+
             i=i+1
-            x_Tiempo = x_Tiempo[-100:]
-            y_Ir = y_Ir[-100:]
-            y_Rojo = y_Rojo[-100:]
+            x_Tiempo = x_Tiempo[-65:]
+            y_Ir = y_Ir[-65:]
+            y_Rojo = y_Rojo[-65:]
         t_asd=time.time()-t_ini1
         t_duracion_entero=time.time()-t_ini
-    print('ok')
             
     graf_ir.clear()
     graf_rojo.clear()
@@ -81,6 +82,20 @@ while 1:
     graf_ir.title.set_text('Medidas infrarojas')
     graf_rojo.title.set_text('Medidas led rojo')
    
+    # -------------- FILTRADO ----------------
+
+    Ir = numpy.array(y_Ir)
+    Rojo = numpy.array(y_Rojo)
+    fs = 6000  # Sampling frequency
+    fc = 2555  # Cut-off frequency of the filter
+    w = fc / (fs / 2) # Normalize the frequency
+
+    b, a = signal.butter(2, w, 'low')
+    output = signal.lfilter(b, a, Ir)
+    output = signal.lfilter(b, a, Rojo)
+
+
+
     graf_ir.tick_params(labelrotation =45)
     graf_rojo.tick_params(labelrotation = 45)
     graf_ir.plot(x_Tiempo, y_Ir, linewidth = 2, color = 'r')
@@ -89,8 +104,7 @@ while 1:
     plt.pause(0.01)
     graf_ir.clear()
     graf_rojo.clear()
-    
-    print('ok2')
+
 
 
         
