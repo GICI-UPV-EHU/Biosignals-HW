@@ -12,15 +12,11 @@
 # correctamente, ya que el tiempo que tarda la tercera de llas peta las demás en 
 # los siguientes ciclos
 
-''' 
-Se cambia el sensor Max30100 por el max 30102. En el cual la biblioteca de Python está bien
-creada lo que permite una mejor organización de código y se supone que por ello, mejor optimización
-'''
 
 # ---------------------------------- Programa ---------------------------------- #
 
 import multiprocessing as mp # Biblioteca que se encarga de generar procesos (Tareas)
-import max30102 # Biblioteca con la cual se utiliza en sensor MAX30100
+import max30100 # Biblioteca con la cual se utiliza en sensor MAX30100
 from datetime import datetime
 import time
 import BiblioTareasPeriodicas
@@ -32,8 +28,9 @@ def CogerGuardarDatosPOX(a_ir, a_r, a_t):
         a_t.append(datetime.now().strftime('%M:%S.%f'))
         rojo = 0
         infrarrojo = 0
-        
-        rojo, infrarrojo= mx30.read_fifo  # se recoge el valor del led infrarrojo
+        mx30.read_sensor()
+        infrarrojo = mx30.ir  # se recoge el valor del led infrarrojo
+        rojo = mx30.red       # se recoge el valor del led rojo
 
     # ------------- Guardar datos en los arrays -------------#
     
@@ -77,7 +74,8 @@ def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
 
 if __name__ == "__main__":
     
-    mx30 = max30102.MAX30102()
+    mx30 = max30100.MAX30100()
+    mx30.enable_spo2()
     
     # Se crean objetos protegidos mediante manager
     mng = mp.Manager()
