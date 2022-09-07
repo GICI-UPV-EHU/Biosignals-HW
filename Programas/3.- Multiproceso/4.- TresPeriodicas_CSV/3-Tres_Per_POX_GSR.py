@@ -29,11 +29,11 @@ import csv
 # ------------ Funciones que irán dentro de las tareas ------------ #
 
 def CogerGuardarDatosPOX(a_ir, a_r, a_t):
-        a_t.append(datetime.now().strftime('%M:%S.%f'))
+        a_t.append(datetime.now()) #.strftime('%M:%S.%f'))
         rojo = 0
         infrarrojo = 0
         
-        rojo, infrarrojo= mx30.read_fifo  # se recoge el valor del led infrarrojo
+        rojo, infrarrojo= mx30.read_fifo()  # se recoge el valor del led infrarrojo
 
     # ------------- Guardar datos en los arrays -------------#
     
@@ -46,7 +46,7 @@ def CogerGuardarDatosGSR(a_pox, a_t):
         global a
         a_pox.append(a)
         #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
-        a_t.append(datetime.now().strftime('%M:%S.%f'))
+        a_t.append(datetime.now()) #.strftime('%M:%S.%f'))
         a = a + 1
         
 def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
@@ -54,20 +54,20 @@ def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
         
         with open('/home/pi/Desktop/Data/POX.csv', 'a+', newline='') as POX_CSV:
                 w = csv.writer(POX_CSV)
-                for i in range(len(a_ir)):
-                        w.writerow([a_ir[i], a_rojo[i], a_t_P[i]])
+                for i in range(len(a_ir)-1):
+                        w.writerow([a_t_P[i], a_rojo[i], a_ir[i]])
                         
         with open('/home/pi/Desktop/Data/GSR.csv', "a+", newline = '') as GSR_CSV:
                 w = csv.writer(GSR_CSV)
-                for i in range(len(a_gsr)):
-                        w.writerow([a_gsr[i], a_t_G[i]])
+                for i in range(len(a_gsr)-1):
+                        w.writerow([a_t_G[i], a_gsr[i]])
                                                 
         a_ir[:] = []
         a_rojo[:] = []
         a_gsr[:] = []
         a_t_P[:] = []
         a_t_G[:] = []
-        print("Limpios: ", len(a_ir))
+        print("Limpios: ")
         print(" \n")
         print(" \n")
 
