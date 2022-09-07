@@ -12,11 +12,15 @@
 # correctamente, ya que el tiempo que tarda la tercera de llas peta las demás en 
 # los siguientes ciclos
 
+''' 
+Se cambia el sensor Max30100 por el max 30102. En el cual la biblioteca de Python está bien
+creada lo que permite una mejor organización de código y se supone que por ello, mejor optimización
+'''
 
 # ---------------------------------- Programa ---------------------------------- #
 
 import multiprocessing as mp # Biblioteca que se encarga de generar procesos (Tareas)
-import max30100 # Biblioteca con la cual se utiliza en sensor MAX30100
+import max30102 # Biblioteca con la cual se utiliza en sensor MAX30100
 from datetime import datetime
 import time
 import BiblioTareasPeriodicas
@@ -25,12 +29,11 @@ import csv
 # ------------ Funciones que irán dentro de las tareas ------------ #
 
 def CogerGuardarDatosPOX(a_ir, a_r, a_t):
-        a_t.append(datetime.now())#.strftime('%H:%M:%S.%f'))
+        a_t.append(datetime.now().strftime('%M:%S.%f'))
         rojo = 0
         infrarrojo = 0
-        mx30.read_sensor()
-        infrarrojo = mx30.ir  # se recoge el valor del led infrarrojo
-        rojo = mx30.red       # se recoge el valor del led rojo
+        
+        rojo, infrarrojo= mx30.read_fifo  # se recoge el valor del led infrarrojo
 
     # ------------- Guardar datos en los arrays -------------#
     
@@ -39,11 +42,11 @@ def CogerGuardarDatosPOX(a_ir, a_r, a_t):
         #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
 
 
-def CogerGuardarDatosGSR(a_gsr, a_t):
+def CogerGuardarDatosGSR(a_pox, a_t):
         global a
-        a_gsr.append(a)
+        a_pox.append(a)
         #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
-        a_t.append(datetime.now())#.strftime('%H%M%S%f'))
+        a_t.append(datetime.now().strftime('%M:%S.%f'))
         a = a + 1
         
 def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
@@ -52,12 +55,12 @@ def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
         with open('/home/pi/Desktop/Data/POX.csv', 'a+', newline='') as POX_CSV:
                 w = csv.writer(POX_CSV)
                 for i in range(len(a_ir)):
-                        w.writerow([a_t_P[i], a_rojo[i], a_ir[i]])
+                        w.writerow([a_ir[i], a_rojo[i], a_t_P[i]])
                         
         with open('/home/pi/Desktop/Data/GSR.csv', "a+", newline = '') as GSR_CSV:
                 w = csv.writer(GSR_CSV)
                 for i in range(len(a_gsr)):
-                        w.writerow([a_t_G[i], a_gsr[i]])
+                        w.writerow([a_gsr[i], a_t_G[i]])
                                                 
         a_ir[:] = []
         a_rojo[:] = []
@@ -74,8 +77,7 @@ def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
 
 if __name__ == "__main__":
     
-    mx30 = max30100.MAX30100()
-    mx30.enable_spo2()
+    mx30 = max30102.MAX30102()
     
     # Se crean objetos protegidos mediante manager
     mng = mp.Manager()
@@ -101,7 +103,7 @@ if __name__ == "__main__":
     
     tarea1 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.02, 0.015, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
     tarea2 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.05, 0.04, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
-    tarea3 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 10, 10, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
+    tarea3 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 30, 30, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
     
     tarea1.start()
     tarea2.start()
