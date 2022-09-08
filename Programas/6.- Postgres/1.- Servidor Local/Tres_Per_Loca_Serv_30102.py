@@ -8,13 +8,17 @@
 
 # ---------------------------------- Enunciado ---------------------------------- #
 
-# Probar a ver si se logra resolver que las tres tareas periodicas se sincronicen
-# correctamente, ya que el tiempo que tarda la tercera de llas peta las demás en 
-# los siguientes ciclos
+'''
+Una vez ya se han creadop las tres tareas periódicas, y funcionan correctamente. 
+Se quiere desarrollar una subida de datos a una base de datros de POSTGRES.
 
-''' 
-Se cambia el sensor Max30100 por el max 30102. En el cual la biblioteca de Python está bien
-creada lo que permite una mejor organización de código y se supone que por ello, mejor optimización
+En este primer intento se ejecutará todo de forma local, es decir, todos los 
+movimientos de datos se harán dentro de la propia raspberry sin acceso a internet
+y sin involucrar a otos dispositivos.
+
+Sensor de POX --> MAX 30102
+Sensor de GSR --> ????? (no implementado)
+
 '''
 
 # ---------------------------------- Programa ---------------------------------- #
@@ -23,16 +27,17 @@ import multiprocessing as mp # Biblioteca que se encarga de generar procesos (Ta
 import max30102 # Biblioteca con la cual se utiliza en sensor MAX30100
 from datetime import datetime
 import time
-import BiblioTareasPeriodicas
+import BiblioTareasPeriodicas_ServerLocal
 import csv
 
+import psycopg2
 # ------------ Funciones que irán dentro de las tareas ------------ #
 
 def CogerGuardarDatosPOX(a_ir, a_r, a_t):
-        a_t.append(datetime.now())#.strftime('%M:%S.%f'))
+        a_t.append(datetime.now())#.strftime('%H:%M:%S.%f'))
         rojo = 0
         infrarrojo = 0
-        
+
         rojo, infrarrojo= mx30.read_fifo()  # se recoge el valor infra y rojo
 
     # ------------- Guardar datos en los arrays -------------#
@@ -42,32 +47,48 @@ def CogerGuardarDatosPOX(a_ir, a_r, a_t):
         #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
 
 
-def CogerGuardarDatosGSR(a_pox, a_t):
+def CogerGuardarDatosGSR(a_gsr, a_t):
         global a
-        a_pox.append(a)
+        a_gsr.append(a)
         #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
-        a_t.append(datetime.now())#.strftime('%M:%S.%f'))
+        a_t.append(datetime.now())#.strftime('%H%M%S%f'))
         a = a + 1
         
 def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
         print ("Infrarrojo: " , len(a_ir), "Rojo: ", len(a_gsr))
         
-        with open('/home/pi/Desktop/Data/POX.csv', 'a+', newline='') as POX_CSV:
+        with open('/home/pi/Desktop/Data/POX.csv', 'w', newline='') as POX_CSV:
                 w = csv.writer(POX_CSV)
-                for i in range(len(a_ir)):
+                for i in range(len(a_ir)-1):
                         w.writerow([a_t_P[i], a_rojo[i], a_ir[i]])
                         
-        with open('/home/pi/Desktop/Data/GSR.csv', "a+", newline = '') as GSR_CSV:
+        with open('/home/pi/Desktop/Data/GSR.csv', "w", newline = '') as GSR_CSV:
                 w = csv.writer(GSR_CSV)
-                for i in range(len(a_gsr)):
-                        w.writerow([a_t_G[i], a_gsr[i]])
+                for i in range(len(a_gsr)-1):
+                        w.writerow([a_t_G[i
+                        ], a_gsr[i]])
+
+
+        conn = psycopg2.connect(dbname = "data_bio", host = 'localhost', user = 'imanol', password = '0000')
+        cur = conn.cursor()
+        pox = open('/home/pi/Desktop/Data/POX.csv', 'r')
+        gsr = open('/home/pi/Desktop/Data/GSR.csv', 'r')
+
+        cur.copy_from(pox, 'pox', sep=",")
+        pox.close()
+        cur.copy_from(gsr, 'gsr', sep=",")
+        gsr.close()
+
+        cur.close()
+        conn.commit()
+        conn.close()
                                                 
         a_ir[:] = []
         a_rojo[:] = []
         a_gsr[:] = []
         a_t_P[:] = []
         a_t_G[:] = []
-        print("Limpios: ", len(a_ir))
+        print("Limpios: ")
         print(" \n")
         print(" \n")
 
@@ -101,9 +122,10 @@ if __name__ == "__main__":
     
     tiempo0 = time.time() # Tiempo inicial
     
-    tarea1 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.02, 0.015, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
-    tarea2 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.05, 0.04, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
-    tarea3 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 30, 30, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
+    tarea1 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.02, 0.02, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
+    tarea2 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.05, 0.05, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
+    tarea3 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 60, 60, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
+
     
     tarea1.start()
     tarea2.start()

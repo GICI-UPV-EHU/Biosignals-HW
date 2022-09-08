@@ -7,7 +7,7 @@ el sensor se queda encendido
 import max30102
 import smbus
 if __name__ == "__main__":
-    Bus = smbus.S(1)  # Se selecciona el canal 1 ya que la raspi usa este 
+    Bus = smbus.SMBus(1)  # Se selecciona el canal 1 ya que la raspi usa este 
                       # canal para la comunicación I2C - NO USA EL 0  
 
     Bus.write_i2c_block_data(0x57, 0x09, [0x80])
