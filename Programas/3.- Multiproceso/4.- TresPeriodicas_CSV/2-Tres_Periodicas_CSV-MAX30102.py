@@ -33,7 +33,7 @@ def CogerGuardarDatosPOX(a_ir, a_r, a_t):
         rojo = 0
         infrarrojo = 0
         
-        rojo, infrarrojo= mx30.read_fifo  # se recoge el valor del led infrarrojo
+        rojo, infrarrojo= mx30.read_fifo()  # se recoge el valor del led infrarrojo
 
     # ------------- Guardar datos en los arrays -------------#
     
