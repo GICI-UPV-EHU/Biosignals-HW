@@ -82,3 +82,25 @@ def Tarea_Periodica_Sensores_5Arr_Duerme_Ini (tiempo_inicio, Identificador, Peri
             next_time = next_time + Periodo
             time.sleep(next_time - time.time())
             print(Identificador," = ", time.time()-tiempo_inicio-0.1) #"Tiempo Tardado en la Tarea ", 
+
+def Tarea_Periodica_SubidaDatos(tiempo_inicio, Identificador, Periodo, Plazo, Funcion):
+    time.sleep(0.1 - (time.time() - tiempo_inicio))
+    next_time = time.time()
+    error = 0
+    while 1:
+        for i in range(0, 1200): #################
+            Funcion()
+            t_prueba=time.time()
+            if (time.time()-next_time) >= Plazo:
+                
+                error = error + 1
+                print(" Abort:T", Identificador)
+                if error == 5:
+                    break
+            next_time = next_time + Periodo
+            time.sleep(next_time - time.time())
+            
+            #if len(array1) == 1200:
+             #   print ("---------------- Tarea GSR  -------------------")
+             #   print( Identificador, ": ", len(array1))
+        print(Identificador," = ", time.time()-tiempo_inicio-0.1) #"Tiempo Tardado en la Tarea ", 

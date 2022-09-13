@@ -76,10 +76,6 @@ def CogerGuardarDatosGSR(a_gsr, a_t):
         GSR_val = gsr.GSR()
         a_gsr.append(GSR_val)
 
-        '''
-        ESTO NO SE HA COMPROBADO AÚN
-        '''
-
         
         
 def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
