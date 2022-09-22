@@ -42,9 +42,9 @@ def FiltroGSR(Direccion):
     x = np.arange(0,val, 0.1)
 
 
-    plt.plot(x, Data, color = [22/255, 51/255, 237/255], linewidth = 0.5)
-    plt.plot(x, Data_filtrado, color= [237/255, 60/255, 60/255])
-    plt.plot(x, Data_MedMov, color= [0/255, 198/255, 24/255])
+    plt.plot(x, Data, color = [22/255, 51/255, 237/255], linewidth = 2)
+    plt.plot(x, Data_filtrado, color= [237/255, 60/255, 60/255], linewidth = 2)
+    plt.plot(x, Data_MedMov, color= [0/255, 198/255, 24/255], linewidth = 2)
 
     plt.xlabel('time (s)', loc = 'center')
     plt.ylabel('GSR signal (μS)')
