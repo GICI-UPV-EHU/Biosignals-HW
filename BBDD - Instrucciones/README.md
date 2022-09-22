@@ -13,10 +13,14 @@ Una vez instalado, lo primero es crear un usuario con contraseña, que será el 
 hacia la Base de Datos. Debido a esto, es necesario darle privilegios de SUperusuario para que no haya problemas.
 De nuevo en la consola del terminal:
 
---> sudo su postgres                         (Te  introduces en la aplicación de POSTGRESQL)\n
---> psql 			                         (A partir de ahora todas las funciones serán en SQL)\n 
---> CREATE USER nombre WITH PASSWORD '1234'; (No es obligatorio poner con mayusculas, pero si el ";")\n
---> ALTER ROLE nombre WITH SUPEUSER;         (Se le dan privilegios de superusuario al usuario recien creada)\n
+--> sudo su postgres                         (Te  introduces en la aplicación de POSTGRESQL)
+
+--> psql 			                         (A partir de ahora todas las funciones serán en SQL)
+
+--> CREATE USER nombre WITH PASSWORD '1234'; (No es obligatorio poner con mayusculas, pero si el ";")
+
+--> ALTER ROLE nombre WITH SUPEUSER;         (Se le dan privilegios de superusuario al usuario recien creada)
+
 --> \du                                      (para observar los usuarios que existen y sus privilegios)
 
 Una vez ya se tiene creado el usuario, se puede proceder a crear una Base de datos (Terminal):
