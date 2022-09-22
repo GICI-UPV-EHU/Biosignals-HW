@@ -11,11 +11,4 @@ Se estrucutra en dos carpetas diferentes, ya que se ha desarrollado en dos plata
 
 --> Raspberry PI 4B +
 
-<p align="center">
-<img src="https://www.mouser.es/images/marketingid/2019/img/149325396.png?v=042022.0447" alt="drawing" width="200"/>
-</p>
-
 --> ESP32 (RaspberryPI de Broker y BBDD)
-<p align="center">
-<img src="https://cdn-reichelt.de/bilder/web/xxl_ws/A300/SBC-NODEMCU-ESP32-01.png alt="drawing" width="200"/>
-</p>
