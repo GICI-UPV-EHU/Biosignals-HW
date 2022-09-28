@@ -167,7 +167,7 @@ Programa principal
 #dirPOX = '/tmp/POX.csv'
 #FiltroPOX (dirPOX)
 
-dirGSR = '/home/pi/GITHUB/Biosignals-HW/Imagenes/ESP32/Sensor GSR/Gain 31_9545/GSR_Gain31_95.csv'
+dirGSR = '/tmp/GSR.csv'
 FiltroGSR(dirGSR)
 
 
