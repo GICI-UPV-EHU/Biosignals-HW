@@ -6,4 +6,6 @@
 
 Las resistencias usasdas han sido:
 	
-	- 22K6 y 1K para la amplificación y 4.7K para el divisor de tensión
+	- 22K6 y 1K para la amplificación y (4k7 - 4k7) para el divisor de tensión
+	
+	- Ganancia --> 23.6

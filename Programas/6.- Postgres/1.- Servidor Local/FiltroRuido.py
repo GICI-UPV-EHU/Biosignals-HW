@@ -18,6 +18,7 @@ Para pasar los datos que han generado la figura correspondiente:
 
 
 
+from matplotlib.lines import lineStyles
 import numpy as np
 from  scipy import signal
 import pandas as pd
@@ -35,27 +36,27 @@ def FiltroGSR(Direccion):
     b, a = signal.butter(8, 0.05 , 'lowpass')
 
     Data_filtrado = signal.filtfilt(b,a, Data)
-    val = Data_filtrado.size * 20/100
+    val = Data_filtrado.size * 50/100
     len = Data_filtrado.size
 
 
     '''
     Ahora va el código del filtro media movil
     '''
-    Data_MedMov = Datos_or[1].rolling(26).mean()
+    Data_MedMov = Datos_or[1].rolling(20).mean()
 
-    x = np.arange(0,val, 0.2)
+    x = np.arange(0,val, 0.5)
 
 
-    plt.plot(x, Data, color = [22/255, 51/255, 237/255], linewidth = 2)
-    plt.plot(x, Data_filtrado, color= [237/255, 60/255, 60/255], linewidth = 2)
-    plt.plot(x[0:len-13], Data_MedMov[13:len+1], color= [0/255, 198/255, 24/255], linewidth = 2)
+    plt.plot(x[  :     ], Data                 , color = [ 22/255,  51/255, 237/255], linewidth = 1, linestyle = '-')
+    plt.plot(x[  :     ], Data_filtrado        , color = [237/255,  60/255,  60/255], linewidth = 2, linestyle = '-')
+    plt.plot(x[0:len-10], Data_MedMov[10:len+1], color = [ 18/255, 198/255,   0/255], linewidth = 3, linestyle = '-')
 
     plt.xlabel('time (s)', loc = 'center')
     plt.ylabel('GSR signal (μS)')
     plt.grid()
-    plt.title('GSR acquisition - Gain = 100k/2k61+1 = 39.314\n(2 min of relaxing video at the start of acquisition)')
-    plt.legend(["Acquired GSR Signal","Filtered Acquired GSR Signal\n(Butterwoth - lowpass)", "Filtered Acquired GSR Signal\n(Moving Media - w =150)"])
+    plt.title('GSR acquisition - Gain = 68k1/22k6+1 = 4.0133\n(2 min of relaxing video at the start of acquisition)')
+    plt.legend(["Acquired GSR Signal","Filtered Acquired GSR Signal\n(Butterwoth - lowpass)", "Filtered Acquired GSR Signal\n(Moving Media - w =20)"])
     plt.show()
 
 
