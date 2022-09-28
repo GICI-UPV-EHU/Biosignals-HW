@@ -43,20 +43,20 @@ def FiltroGSR(Direccion):
     '''
     Ahora va el código del filtro media movil
     '''
-    Data_MedMov = Datos_or[1].rolling(20).mean()
+    Data_MedMov = Datos_or[1].rolling(10).mean()
 
     x = np.arange(0,val, 0.5)
 
 
     plt.plot(x[  :     ], Data                 , color = [ 22/255,  51/255, 237/255], linewidth = 1, linestyle = '-')
     plt.plot(x[  :     ], Data_filtrado        , color = [237/255,  60/255,  60/255], linewidth = 2, linestyle = '-')
-    plt.plot(x[0:len-10], Data_MedMov[10:len+1], color = [ 18/255, 198/255,   0/255], linewidth = 3, linestyle = '-')
+    plt.plot(x[0:len-5], Data_MedMov[5:len+1], color = [ 18/255, 198/255,   0/255], linewidth = 3, linestyle = '-')
 
     plt.xlabel('time (s)', loc = 'center')
     plt.ylabel('GSR signal (μS)')
     plt.grid()
-    plt.title('GSR acquisition - Gain = 68k1/22k6+1 = 4.0133\n(2 min of relaxing video at the start of acquisition)')
-    plt.legend(["Acquired GSR Signal","Filtered Acquired GSR Signal\n(Butterwoth - lowpass)", "Filtered Acquired GSR Signal\n(Moving Media - w =20)"])
+    plt.title('GSR acquisition - Gain = 68k1/2k2+1 = 31.9545\n(2 min of relaxing video at the start of acquisition)')
+    plt.legend(["Acquired GSR Signal","Filtered Acquired GSR Signal\n(Butterwoth - lowpass)", "Filtered Acquired GSR Signal\n(Moving Media - w = 10')"])
     plt.show()
 
 
@@ -167,7 +167,7 @@ Programa principal
 #dirPOX = '/tmp/POX.csv'
 #FiltroPOX (dirPOX)
 
-dirGSR = '/tmp/GSR.csv'
+dirGSR = '/home/pi/GITHUB/Biosignals-HW/Imagenes/ESP32/Sensor GSR/Gain 31_9545/GSR_Gain31_95.csv'
 FiltroGSR(dirGSR)
 
 

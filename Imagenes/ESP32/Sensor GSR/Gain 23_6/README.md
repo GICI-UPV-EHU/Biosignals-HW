@@ -9,3 +9,6 @@ Las resistencias usasdas han sido:
 	- 22K6 y 1K para la amplificación y (4k7 - 4k7) para el divisor de tensión
 	
 	- Ganancia --> 23.6
+
+Límite superior de tensión --> 0.1397 V --> En Micro Siemens = 2.8934 uS
+Límite inferior de tensión -->      0 V --> En Micro Siemens =      0 uS

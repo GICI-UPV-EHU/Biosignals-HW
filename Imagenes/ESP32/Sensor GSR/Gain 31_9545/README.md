@@ -10,3 +10,6 @@ Las resistencias usasdas han sido:
 	
 	- Ganancia --> 31.9545
 	
+Límite superior de tensión --> 0.1032 V --> En Micro Siemens = 2.1523 uS
+Límite inferior de tensión -->      0 V --> En Micro Siemens =      0 uS
+	
