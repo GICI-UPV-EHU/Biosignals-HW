@@ -12,3 +12,11 @@ Se estrucutra en dos carpetas diferentes, ya que se ha desarrollado en dos plata
 --> Raspberry PI 4B +
 
 --> ESP32 (RaspberryPI de Broker y BBDD)
+
+Además se incluye nuevas carpetas dónde se guardan las imagenes usadas para la configuración del Router, Adaptador USB-WIFI y Máquina virtual
+
+--> Router (TL-WR842ND)
+
+--> Adaptador USB-WIFI (TL-WN725N)
+
+--> Máquina virtual (configuración VMWare y Postgres, creación Base de datos)
