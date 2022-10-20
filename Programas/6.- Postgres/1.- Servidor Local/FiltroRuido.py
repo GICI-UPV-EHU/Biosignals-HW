@@ -23,6 +23,7 @@ import numpy as np
 from  scipy import signal
 import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
 
 def FiltroGSR(Direccion):
     Datos_or = pd.read_csv(Direccion, header= None)
@@ -36,29 +37,28 @@ def FiltroGSR(Direccion):
     b, a = signal.butter(8, 0.05 , 'lowpass')
 
     Data_filtrado = signal.filtfilt(b,a, Data)
-    val = Data_filtrado.size * 50/100
-    len = Data_filtrado.size
 
 
     '''
     Ahora va el código del filtro media movil
     '''
     Data_MedMov = Datos_or[1].rolling(10).mean()
+    
+    tiempo = Datos_or[0].to_numpy()
 
-    x = np.arange(0,val, 0.5)
+    dMedMov = {'time': tiempo, 'sensor_GSR': Data_MedMov}
+    dButter = {'time': tiempo, 'sensor_GSR': Data_filtrado}
 
+    Tab_GSR_MedMov = pd.DataFrame(data=dMedMov)
+    Tab_GSR_Butter = pd.DataFrame(data=dButter)
 
-    plt.plot(x[  :     ], Data                 , color = [ 22/255,  51/255, 237/255], linewidth = 1, linestyle = '-')
-    plt.plot(x[  :     ], Data_filtrado        , color = [237/255,  60/255,  60/255], linewidth = 2, linestyle = '-')
-    plt.plot(x[0:len-5], Data_MedMov[5:len+1], color = [ 18/255, 198/255,   0/255], linewidth = 3, linestyle = '-')
+    Tab_GSR_MedMov= Tab_GSR_MedMov.dropna()
 
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('GSR signal (μS)')
-    plt.grid()
-    plt.title('GSR acquisition - Gain = 68k1/2k2+1 = 31.9545\n(2 min of relaxing video at the start of acquisition)')
-    plt.legend(["Acquired GSR Signal","Filtered Acquired GSR Signal\n(Butterwoth - lowpass)", "Filtered Acquired GSR Signal\n(Moving Media - w = 10')"])
-    plt.show()
+    # print (Tab_GSR_MedMov)
+    # print (Tab_GSR_Butter)
 
+    Tab_GSR_Butter.to_csv('/home/pi/Desktop/Data/BBDD/GSR_but.csv', header=False, index=False)
+    Tab_GSR_MedMov.to_csv('/home/pi/Desktop/Data/BBDD/GSR_mov.csv', header=False, index=False)
 
 def FiltroPOX(Direccion):
     Datos_or = pd.read_csv(Direccion, header= None)
@@ -74,7 +74,8 @@ def FiltroPOX(Direccion):
 
     Data_filtradoRed = signal.filtfilt(b,a, DataRed)
     Data_filtradoIR = signal.filtfilt(b,a, DataIR)
-    val = Data_filtradoRed.size * 25/1000
+   
+
  
     '''
     Ahora va el código del filtro media movil
@@ -82,92 +83,21 @@ def FiltroPOX(Direccion):
     DataRed_MedMov = Datos_or[1].rolling(5).mean()
     DataIR_MedMov  = Datos_or[2].rolling(5).mean()
 
-    x = np.arange(0,val, 0.025)
-
     '''
-    Figura datos POX con y sin media movil
+    Se toma también la columna de tiempo
     '''
-    plt.subplot(1,2,1)
-    plt.plot(x[100:250], DataRed[100:250], color = [54/255,56/255,65/255], linewidth = 2)
-    #plt.plot(x[2000:2500], Data_filtradoRed[2200:2700], color= [237/255, 60/255, 60/255])
-    plt.plot(x[100:250], DataRed_MedMov[100:250], color= [237/255, 60/255, 60/255])
-    plt.legend(["Acquired Red POX Signal", "Filtered Acquired Red POX Signal\n(Moving Media - w = 5)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Red Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of RED sensor ')
 
-    plt.subplot(1,2,2)
-    plt.plot(x[100:250], DataIR[100:250], linewidth = 2, color = [54/255,56/255,65/255])#[22/255, 51/255, 237/255])
-    #plt.plot(x[2000:2500], Data_filtradoRed[2200:2700], color= [237/255, 60/255, 60/255])
-    plt.plot(x[100:250], DataIR_MedMov[100:250], color= 'green', linewidth = 2)#[237/255, 60/255, 60/255])
-    plt.legend(["Acquired IR POX Signal", "Filtered Acquired IR POX Signal\n(Moving Media - w = 5)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Infrared Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of IR sensor ')
-    
-    plt.suptitle('POX acquisition\nWith Moving Media')
-   
-    plt.show()
 
-    '''
-    Figura datos POX con y sin filtro pasabajo butterworth
-    '''
-    plt.subplot(1,2,1)
-    plt.plot(x[200:300], DataRed[200:300], color = [54/255,56/255,65/255], linewidth = 2)
-    plt.plot(x[200:300], Data_filtradoRed[200:300], color= [237/255, 60/255, 60/255], linewidth= 2)
-    plt.legend(["Acquired Red POX Signal", "Filtered Acquired Red POX Signal\n(Butterworth - Order = 6 - w = 0.4)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Red Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of RED sensor ')
-
-    plt.subplot(1,2,2)
-    plt.plot(x[200:300], DataIR[200:300], linewidth = 2, color = [54/255,56/255,65/255])#[22/255, 51/255, 237/255])
-    plt.plot(x[200:300], Data_filtradoIR[200:300], color= 'green', linewidth = 2)
-    plt.legend(["Acquired IR POX Signal", "Filtered Acquired IR POX Signal\n(Butterworth - Order = 6 - w = 0.4)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Infrared Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of IR sensor ')
-    
-    plt.suptitle('POX acquisition\nWith Lowpass Butterworth Filter')
-   
-    plt.show()
-
-    '''
-    Figura datos POX sinf filtros
-    '''
-    plt.subplot(1,2,1)
-    plt.plot(x[200:300], DataRed[200:300], color = 'red')#[54/255,56/255,65/255], linewidth = 2)
-    plt.legend(["Acquired Red POX Signal"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Red Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of RED sensor ')
-
-    plt.subplot(1,2,2)
-    plt.plot(x[200:300], DataIR[200:300], linewidth = 2, color = 'blue')#[54/255,56/255,65/255])#[22/255, 51/255, 237/255])
-    plt.legend(["Acquired IR POX Signal"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Infrared Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of IR sensor ')
-    
-    plt.suptitle('POX acquisition')
-   
-    plt.show()
 
 
 '''
 Programa principal
 '''
 
-#dirPOX = '/tmp/POX.csv'
-#FiltroPOX (dirPOX)
+# dirPOX = '/home/pi/Desktop/Data/esp32/POX.csv'
+# FiltroPOX (dirPOX)
 
-dirGSR = '/tmp/GSR.csv'
-FiltroGSR(dirGSR)
+# dirGSR = '/home/pi/Desktop/Data/esp32/GSR.csv'
+# FiltroGSR(dirGSR)
 
 

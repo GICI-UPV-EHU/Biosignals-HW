@@ -6,8 +6,10 @@
 # hacerla con varaibles internas
 
 from queue import Queue
-import time
+from time import time, sleep
 from multiprocessing import Event
+
+    
 
 def Tarea_Periodica_Sensores_3Arr (tiempo_inicio, Identificador, Periodo, Plazo, Funcion, array1, array2, arrayT):
     
@@ -58,27 +60,30 @@ def Tarea_Periodica_Sensores_2Arr (tiempo_inicio, Identificador, Periodo, Plazo,
 
 def Tarea_Periodica_Sensores_1Arr (tiempo_inicio, Identificador, Periodo, Plazo, Funcion, Queue):
     
-    time.sleep(0.1 - (time.time() - tiempo_inicio))
-    next_time = time.time()
+    sleep(0.1 - (time() - tiempo_inicio))
+    next_time = time()
     error = 0
+    i = 0
     while 1:
-        for i in range(0, 1200): #################
+            i = i + 1
             Funcion(Queue)
-            t_prueba=time.time()
-            if (time.time()-next_time) > Plazo:
-                
-                error = error + 1
-                print(" Abort:T", Identificador)
-                if error == 5:
-                    break
-            
+            # if (time()-next_time) > Plazo:
+            #     print("Fuera de plazo real")
+            #     break
+
+            # if i == 100:
+            #     print ("---------------- Tarea POX  -------------------")
+            #     print("Tiempo Tardado en la Tarea ", Identificador," = ", time()-tiempo_inicio-0.1)
+            #     i = 0
             next_time = next_time + Periodo
-            time.sleep(next_time - time.time())
-            
-            if len(Queue) == 50:
-                print ("---------------- Tarea GSR  -------------------")
-                print("Tarea ", Identificador, ": ", len(Queue))
-        print("Tiempo Tardado en la Tarea ", Identificador," = ", time.time()-tiempo_inicio-0.1)
+            try:
+                sleep(next_time - time())  
+            except(Exception):
+                print("Fuera de plazo falso")
+                break
+            # if len(Queue) == 50:
+            #     print ("---------------- Tarea GSR  -------------------")
+            #     print("Tarea ", Identificador, ": ", len(Queue))
 
 
 

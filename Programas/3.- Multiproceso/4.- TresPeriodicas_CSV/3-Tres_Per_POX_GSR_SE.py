@@ -135,7 +135,7 @@ if __name__ == "__main__":
     
     tarea1 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.02, 0.015, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
     tarea2 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.05, 0.04, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
-    tarea3 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 30, 30, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
+    tarea3 = mp.Process(target = BiblioTareasPeriodicas.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 10, 10, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
     
     tarea1.start()
     tarea2.start()
