@@ -24,7 +24,7 @@ import BiblioTareasPeriodicas
 ### Esto nos sirve como identificativo único de dispositivo y por tanto de usuario para poder hacer luego las Insert en la BBDD
 import subprocess
 
-def generar_buffer(q):
+def generar_buffer_pox(q):
 
     # Obtenemos el ID, único por dispositivo
     
@@ -34,7 +34,7 @@ def generar_buffer(q):
 
 
         # Tenemos que usar pytz para sacar la fecha adecuada ya que datetime sólo trabaja con UTC.
-    fecha = datetime.now()
+    fecha = datetime.now(pytz.timezone("Europe/Madrid"))
         #fecha = '02-02-2022 00:00:00.000'
         # Hay que crear la cola FIFO con 6 datos: 
         # Usuario, rojo, infrarrojo, Pulso_SPO2, sudoracion, fecha
@@ -44,7 +44,7 @@ def generar_buffer(q):
         # Sirviéndonos del multiproceso, utilizamos un pool de 2 procesos para obtener valores concurrentemente del max30102 y el ADC.
     pool = mpr.Pool(processes=1)
                 
-    resultado_async_max30102 = pool.apply_async(obtener_valores.coger_datos).get()
+    resultado_async_max30102 = pool.apply_async(obtener_valores.coger_datos_pox).get()
         #resultado_async_adc = pool.apply_async(ADC.leer_adc).get()
                        
     datos_sensores = [ fecha, resultado_async_max30102[0], resultado_async_max30102[1]]
@@ -54,25 +54,68 @@ def generar_buffer(q):
         
         ### Llenamos la cola FIFO con los datos de los sensores
     q.put(datos_sensores)    
+
+def generar_buffer_gsr(q):
+    fecha = datetime.now(pytz.timezone("Europe/Madrid"))
+
+    pool = mpr.Pool(processes=1)
+                
+    resultado_async_gsr = pool.apply_async(obtener_valores.coger_datos_gsr).get()
+        #resultado_async_adc = pool.apply_async(ADC.leer_adc).get()
+                       
+    datos_sensores = [ fecha, resultado_async_gsr]
+    pool.close()
+    pool.join()
+        
+    q.put(datos_sensores)  
+
+def generar_buffer_ecg(q):
+    fecha = datetime.now(pytz.timezone("Europe/Madrid"))
+
+    pool = mpr.Pool(processes=1)
+                
+    resultado_async_gsr = pool.apply_async(obtener_valores.coger_datos_ecg).get()
+        #resultado_async_adc = pool.apply_async(ADC.leer_adc).get()
+                       
+    datos_sensores = [ fecha, resultado_async_gsr]
+    pool.close()
+    pool.join()
+        
+    q.put(datos_sensores)  
              
 ### Rutina principal
 def main():
     
-    q = Queue()
+    q_pox = Queue()
+    q_gsr = Queue()
+    q_ecg = Queue()
     
     #### Llenamos la cola FIFO
-    #llenar_buffer = Process(target=generar_buffer, args=(q,))     
+    # llenar_buffer = Process(target=generar_buffer, args=(q,))     
        
     t0 = time.time()
-    llenar_buffer = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 0.5,0.5, generar_buffer, q))
+    llenar_bufferPOX = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 0.4,0.3, generar_buffer_pox, q_pox))
+    llenar_bufferGSR = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 1,0.3, generar_buffer_gsr, q_gsr))
+    llenar_bufferECG = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 0.35,0.3, generar_buffer_ecg, q_ecg))
     #### Vaciado de la cola FIFO 
-    envio_bbdd = Process(target=connect_bbdd.insertar_sensores_bbdd_batch_queue, args=(q,))
-    llenar_buffer.start()
-    envio_bbdd.start()
+    envio_bbddPOX = Process(target=connect_bbdd.insertar_pox, args=(q_pox,))
+    envio_bbddGSR = Process(target=connect_bbdd.insertar_gsr, args=(q_gsr,))
+    envio_bbddECG = Process(target=connect_bbdd.insertar_ecg, args=(q_ecg,))
+
+    llenar_bufferPOX.start()
+    envio_bbddPOX.start()
+    llenar_bufferGSR.start()
+    envio_bbddGSR.start()
+    llenar_bufferECG.start()
+    envio_bbddECG.start()
        
   
-    llenar_buffer.join()
-    envio_bbdd.join()
+    llenar_bufferPOX.join()
+    envio_bbddPOX.join()    
+    llenar_bufferGSR.join()
+    envio_bbddGSR.join()
+    llenar_bufferECG.join()
+    envio_bbddECG.join()
     
 ## Ejecución
 if __name__ == "__main__":
