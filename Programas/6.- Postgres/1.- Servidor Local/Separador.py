@@ -16,16 +16,42 @@ def DecoPOX(Direccion):
     tabla1 = tabla_or.iloc[: , 0:3]
     tabla2 = tabla_or.iloc[: , 3:6]
     tabla3 = tabla_or.iloc[: , 6:9]
-    tabla4 = tabla_or.iloc[: , 9:]
 
     tabla1.columns = ['Time', 'Red', 'IR']
     tabla2.columns = ['Time', 'Red', 'IR']
     tabla3.columns = ['Time', 'Red', 'IR']
-    tabla4.columns = ['Time', 'Red', 'IR']
 
-    tabla_nueva = pd.concat([tabla1,tabla2,tabla3,tabla4], axis = 0,ignore_index=True)
+    tabla_nueva = pd.concat([tabla1,tabla2,tabla3], axis = 0,ignore_index=True)
 
 
     tabla_nueva.sort_values(by = ['Time'], inplace=True)
     tabla_nueva.reset_index(drop=True, inplace=True)
     tabla_nueva.to_csv(Direccion, header=False, index=False)
+
+def DecoECG(Direccion):
+    tabla_or = pd.read_csv(Direccion, header = None, sep= ';|,', engine='python')
+    tabla1 = tabla_or.iloc[: ,  0:2 ]
+    tabla2 = tabla_or.iloc[: ,  2:4 ]
+    tabla3 = tabla_or.iloc[: ,  4:6 ]
+    tabla4 = tabla_or.iloc[: ,  6:8 ]
+    tabla5 = tabla_or.iloc[: ,  8:10]
+    tabla6 = tabla_or.iloc[: , 10:12]
+    tabla7 = tabla_or.iloc[: , 12:14]
+
+    tabla1.columns = ['Time', 'ECG']
+    tabla2.columns = ['Time', 'ECG']
+    tabla3.columns = ['Time', 'ECG']
+    tabla4.columns = ['Time', 'ECG']
+    tabla5.columns = ['Time', 'ECG']
+    tabla6.columns = ['Time', 'ECG']
+    tabla7.columns = ['Time', 'ECG']
+
+    tabla_nueva = pd.concat([tabla1,tabla2,tabla3, tabla4, tabla5, tabla6, tabla7], axis = 0,ignore_index=True)
+
+
+    tabla_nueva.sort_values(by = ['Time'], inplace=True)
+    tabla_nueva.reset_index(drop=True, inplace=True)
+    tabla_nueva.to_csv(Direccion, header=False, index=False)
+
+# DecoECG('/home/pi/Desktop/ECG.csv')
+# DecoPOX('/home/pi/Desktop/POX.csv')
