@@ -87,60 +87,60 @@ def FiltroPOX(Direccion):
     '''
     Figura datos POX con y sin media movil
     '''
-    plt.subplot(1,2,1)
-    plt.plot(x[100:250], DataRed[100:250], color = [54/255,56/255,65/255], linewidth = 2)
-    #plt.plot(x[2000:2500], Data_filtradoRed[2200:2700], color= [237/255, 60/255, 60/255])
-    plt.plot(x[100:250], DataRed_MedMov[100:250], color= [237/255, 60/255, 60/255])
-    plt.legend(["Acquired Red POX Signal", "Filtered Acquired Red POX Signal\n(Moving Media - w = 5)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Red Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of RED sensor ')
+    # plt.subplot(1,2,1)
+    # plt.plot(x[100:250], DataRed[100:250], color = [54/255,56/255,65/255], linewidth = 2)
+    # #plt.plot(x[2000:2500], Data_filtradoRed[2200:2700], color= [237/255, 60/255, 60/255])
+    # plt.plot(x[100:250], DataRed_MedMov[100:250], color= [237/255, 60/255, 60/255])
+    # plt.legend(["Acquired Red POX Signal", "Filtered Acquired Red POX Signal\n(Moving Media - w = 5)"])
+    # plt.xlabel('time (s)', loc = 'center')
+    # plt.ylabel('Red Signal POX (ADC units)')
+    # plt.grid()
+    # plt.title('Acquisition of RED sensor ')
 
-    plt.subplot(1,2,2)
-    plt.plot(x[100:250], DataIR[100:250], linewidth = 2, color = [54/255,56/255,65/255])#[22/255, 51/255, 237/255])
-    #plt.plot(x[2000:2500], Data_filtradoRed[2200:2700], color= [237/255, 60/255, 60/255])
-    plt.plot(x[100:250], DataIR_MedMov[100:250], color= 'green', linewidth = 2)#[237/255, 60/255, 60/255])
-    plt.legend(["Acquired IR POX Signal", "Filtered Acquired IR POX Signal\n(Moving Media - w = 5)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Infrared Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of IR sensor ')
+    # plt.subplot(1,2,2)
+    # plt.plot(x[100:250], DataIR[100:250], linewidth = 2, color = [54/255,56/255,65/255])#[22/255, 51/255, 237/255])
+    # #plt.plot(x[2000:2500], Data_filtradoRed[2200:2700], color= [237/255, 60/255, 60/255])
+    # plt.plot(x[100:250], DataIR_MedMov[100:250], color= 'green', linewidth = 2)#[237/255, 60/255, 60/255])
+    # plt.legend(["Acquired IR POX Signal", "Filtered Acquired IR POX Signal\n(Moving Media - w = 5)"])
+    # plt.xlabel('time (s)', loc = 'center')
+    # plt.ylabel('Infrared Signal POX (ADC units)')
+    # plt.grid()
+    # plt.title('Acquisition of IR sensor ')
     
-    plt.suptitle('POX acquisition\nWith Moving Media')
+    # plt.suptitle('POX acquisition\nWith Moving Media')
    
-    plt.show()
+    # plt.show()
 
-    '''
-    Figura datos POX con y sin filtro pasabajo butterworth
-    '''
-    plt.subplot(1,2,1)
-    plt.plot(x[200:300], DataRed[200:300], color = [54/255,56/255,65/255], linewidth = 2)
-    plt.plot(x[200:300], Data_filtradoRed[200:300], color= [237/255, 60/255, 60/255], linewidth= 2)
-    plt.legend(["Acquired Red POX Signal", "Filtered Acquired Red POX Signal\n(Butterworth - Order = 6 - w = 0.4)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Red Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of RED sensor ')
+    # '''
+    # Figura datos POX con y sin filtro pasabajo butterworth
+    # '''
+    # plt.subplot(1,2,1)
+    # plt.plot(x[200:300], DataRed[200:300], color = [54/255,56/255,65/255], linewidth = 2)
+    # plt.plot(x[200:300], Data_filtradoRed[200:300], color= [237/255, 60/255, 60/255], linewidth= 2)
+    # plt.legend(["Acquired Red POX Signal", "Filtered Acquired Red POX Signal\n(Butterworth - Order = 6 - w = 0.4)"])
+    # plt.xlabel('time (s)', loc = 'center')
+    # plt.ylabel('Red Signal POX (ADC units)')
+    # plt.grid()
+    # plt.title('Acquisition of RED sensor ')
 
-    plt.subplot(1,2,2)
-    plt.plot(x[200:300], DataIR[200:300], linewidth = 2, color = [54/255,56/255,65/255])#[22/255, 51/255, 237/255])
-    plt.plot(x[200:300], Data_filtradoIR[200:300], color= 'green', linewidth = 2)
-    plt.legend(["Acquired IR POX Signal", "Filtered Acquired IR POX Signal\n(Butterworth - Order = 6 - w = 0.4)"])
-    plt.xlabel('time (s)', loc = 'center')
-    plt.ylabel('Infrared Signal POX (ADC units)')
-    plt.grid()
-    plt.title('Acquisition of IR sensor ')
+    # plt.subplot(1,2,2)
+    # plt.plot(x[200:300], DataIR[200:300], linewidth = 2, color = [54/255,56/255,65/255])#[22/255, 51/255, 237/255])
+    # plt.plot(x[200:300], Data_filtradoIR[200:300], color= 'green', linewidth = 2)
+    # plt.legend(["Acquired IR POX Signal", "Filtered Acquired IR POX Signal\n(Butterworth - Order = 6 - w = 0.4)"])
+    # plt.xlabel('time (s)', loc = 'center')
+    # plt.ylabel('Infrared Signal POX (ADC units)')
+    # plt.grid()
+    # plt.title('Acquisition of IR sensor ')
     
-    plt.suptitle('POX acquisition\nWith Lowpass Butterworth Filter')
+    # plt.suptitle('POX acquisition\nWith Lowpass Butterworth Filter')
    
-    plt.show()
+    # plt.show()
 
     '''
     Figura datos POX sinf filtros
     '''
     plt.subplot(1,2,1)
-    plt.plot(x[200:300], DataRed[200:300], color = 'red')#[54/255,56/255,65/255], linewidth = 2)
+    plt.plot(x[24500:24600], DataRed[24500:24600], color = 'red')#[54/255,56/255,65/255], linewidth = 2)
     plt.legend(["Acquired Red POX Signal"])
     plt.xlabel('time (s)', loc = 'center')
     plt.ylabel('Red Signal POX (ADC units)')
@@ -148,7 +148,7 @@ def FiltroPOX(Direccion):
     plt.title('Acquisition of RED sensor ')
 
     plt.subplot(1,2,2)
-    plt.plot(x[200:300], DataIR[200:300], linewidth = 2, color = 'blue')#[54/255,56/255,65/255])#[22/255, 51/255, 237/255])
+    plt.plot(x[24500:24600], DataIR[24500:24600], linewidth = 2, color = 'blue')#[54/255,56/255,65/255])#[22/255, 51/255, 237/255])
     plt.legend(["Acquired IR POX Signal"])
     plt.xlabel('time (s)', loc = 'center')
     plt.ylabel('Infrared Signal POX (ADC units)')
@@ -164,10 +164,10 @@ def FiltroPOX(Direccion):
 Programa principal
 '''
 
-#dirPOX = '/tmp/POX.csv'
-#FiltroPOX (dirPOX)
+# dirPOX = '/tmp/POX.csv'
+# FiltroPOX (dirPOX)
 
-dirGSR = '/home/pi/Desktop/Data/Filtrado/GSR.csv'
+dirGSR = '/tmp/GSR.csv'
 FiltroGSR(dirGSR)
 
 

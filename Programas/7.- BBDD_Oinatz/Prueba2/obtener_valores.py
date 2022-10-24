@@ -38,6 +38,12 @@ def coger_datos_ecg():
 
     ecg = GSR_ECG_sensor(2)
     ECG_val = ecg.GSR()
-    return(ECG_val)
+    v_real  = ECG_val * (3.3/999)/39.3142
+    try :
+        v_resis = (5.0/v_real+1)*4700
+        v_siem  = (1/v_resis)*1000000
+    except(Exception):
+        v_resis = 0
+    return(v_resis)
 
 
