@@ -39,10 +39,10 @@ TaskHandle_t TareaPOX;
 
 // NTP -- hora actual
 const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = 0;  // UTC +1:00
+const long  gmtOffset_sec = 0;
 const int   daylightOffset_sec = 3600;
 
-ESP32Time rtc(3600);  // offset in seconds GMT+1
+ESP32Time rtc(3600);  // offset en ssegundos --> GMT+1
 
 
 //----------------------------------------------------------------------------//
@@ -72,13 +72,8 @@ void setup_wifi()
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 }
-
-void setup() 
+void conexionMQTT()
 {
-  Serial.begin(115200); // Se inicia la comunicación por medio del puerto USB 
-  setup_wifi();  // Se conecta al wifi indicado
-
-  //-------------------------------- Conexión al BROKER MQTT -----------------------------------//
   client.setServer(mqtt_server, 1883);
   delay(1000); // Se espera 1 segundo para dar tiempo a que haga la conexión
   int a = 1;  // Variable para entrar al bucle while
@@ -100,6 +95,9 @@ void setup()
       delay(5000); 
     }
   }
+}
+void configHora()
+{
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
   struct tm timeinfo;
   if (getLocalTime(&timeinfo))
@@ -111,12 +109,15 @@ void setup()
   printLocalTime();
   String Time = printLocalTime();
   Serial.println(Time);
-  
+}
+
+void configMax30102()
+{
   // Configuración del sensor MAX30102
-  if (particleSensor.begin(Wire, I2C_SPEED_FAST) == false) //Use default I2C port, 400kHz speed
+  while(particleSensor.begin(Wire, I2C_SPEED_FAST) == false) //Use default I2C port, 400kHz speed
   {
     Serial.println("MAX30105 was not found. Please check wiring/power. ");
-    while (1);
+    delay(5000);
   }
   // I have changed the ledbrightness
   byte ledBrightness = 255; //Options: 0=Off to 255=50mA - 255
@@ -130,7 +131,16 @@ void setup()
   particleSensor.setup(ledBrightness, sampleAverage, ledMode, sampleRate, pulseWidth, adcRange);
 
   
-  // Una vez esta hecha la conexión, se pasa a lanzar las Tareas Periodicas
+}
+void setup() 
+{
+  Serial.begin(115200); // Se inicia la comunicación por medio del puerto USB 
+  setup_wifi();  // Se conecta al wifi indicado
+  conexionMQTT(); // Se conecta al Broker MQTT
+  configHora();
+  configMax30102();
+  
+ // Una vez esta hecha la conexión, se pasa a lanzar las Tareas Periodicas
   xTaskCreatePinnedToCore(TareaGSR_code, "Task GSR", 4960, NULL, 10, NULL,0);   
 
   xTaskCreatePinnedToCore(TareaPOX_code, "Task POX", 4960, NULL, 20, NULL,1); 
