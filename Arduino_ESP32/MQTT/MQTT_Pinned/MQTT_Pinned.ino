@@ -185,14 +185,15 @@ void TareaGSR_code (void* paremeter)
     // Cálculo de la resistencia
     float valorReal = vLeido * (3.3/4096)/39.3142;
 
-    float vResis = (3.3/valorReal+1)*4700*2;
+    float vResis = (5/valorReal-1)*4700;
 
     float vSiem = (1/vResis)*1000000;
     Res_act = String(vSiem,4);
     
-    //Serial.println(Mensaje); 
-    Mensaje = Time + "," + Res_act;  
+    //Serial.println(Res_act); 
+    Mensaje = Time + "," + Res_act;    
     Mensaje.toCharArray(buffer,50);
+    //Serial.print(buffer);
 
     //Serial.println(buffer);
     client.publish("esp32_ima/GSR",buffer); 
