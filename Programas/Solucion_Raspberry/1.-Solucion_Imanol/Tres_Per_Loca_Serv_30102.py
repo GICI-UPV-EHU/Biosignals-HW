@@ -51,16 +51,29 @@ def CogerGuardarDatosPOX(a_ir, a_r, a_t):
 
 def CogerGuardarDatosGSR(a_gsr, a_t):
         gsr = GSR_ECG_sensor(0)
-        GSR_val = gsr.GSR()
-        v_real  = GSR_val * (3.3/999)/39.3142
-        v_resis = (5.0/v_real+1)*4700
-        v_siem  = (1/v_resis)*1000000
+        Ratio_val = gsr.GSR_ECG()
+        V_val = 3.3 * Ratio_val/999
+        V_divisor = V_val/21
+        if V_divisor == 0:
+            Val_siem = 0
+        else: 
+            R_gsr = 47000*(5/V_divisor-1)
+            Val_siem = 1/R_gsr*1000000
 
-        a_gsr.append(v_siem)
+        a_gsr.append(Val_siem)
         #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
         a_t.append(datetime.now())#.strftime('%H%M%S%f'))
         
-def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
+def CogerGuardarDatosECG(a_ecg, a_t):
+        ecg = GSR_ECG_sensor(2)
+        ECG_val = ecg.GSR_ECG()
+
+
+        a_ecg.append(ECG_val)
+        #a_t.append(time.strftime('%d/%m - %H:%M:%S.%f', time.localtime()))
+        a_t.append(datetime.now())#.strftime('%H%M%S%f'))
+        
+def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G, a_ecg, a_t_E):
         print ("Infrarrojo: " , len(a_ir), "Rojo: ", len(a_gsr))
         
         with open('/home/pi/Desktop/Data/POX.csv', 'w', newline='') as POX_CSV:
@@ -73,17 +86,27 @@ def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
                 for i in range(len(a_gsr)-1):
                         w.writerow([a_t_G[i
                         ], a_gsr[i]])
+        
+        with open('/home/pi/Desktop/Data/ECG.csv', "w", newline = '') as ECG_CSV:
+                w = csv.writer(ECG_CSV)
+                for i in range(len(a_ecg)-1):
+                        w.writerow([a_t_E[i
+                        ], a_ecg[i]])
+        
 
 
         conn = psycopg2.connect(dbname = "data_bio", host = 'localhost', user = 'imanol', password = '0000')
         cur = conn.cursor()
         pox = open('/home/pi/Desktop/Data/POX.csv', 'r')
         gsr = open('/home/pi/Desktop/Data/GSR.csv', 'r')
+        ecg = open('/home/pi/Desktop/Data/ECG.csv', 'r')
 
         cur.copy_from(pox, 'pox', sep=",")
         pox.close()
         cur.copy_from(gsr, 'gsr', sep=",")
         gsr.close()
+        cur.copy_from(ecg, 'ecg', sep=",")
+        ecg.close()
 
         cur.close()
         conn.commit()
@@ -96,6 +119,7 @@ def coms(a_ir,a_rojo, a_t_P, a_gsr, a_t_G):
         a_t_G[:] = []
         os.remove('/home/pi/Desktop/Data/POX.csv')
         os.remove('/home/pi/Desktop/Data/GSR.csv')
+        os.remove('/home/pi/Desktop/Data/ECG.csv')
         print("Limpios: ")
         print(" \n")
         print(" \n")
@@ -113,7 +137,7 @@ if __name__ == "__main__":
                 self.channel = channel
                 self.adc = Grove_adc.ADC()
         
-        def GSR(self):
+        def GSR_ECG(self):
                 value = self.adc.read(self.channel)
                 return value
     
@@ -126,7 +150,8 @@ if __name__ == "__main__":
     y_GSR = mng.list()
     y_t_GSR = mng.list()
     
-    
+    y_ECG = mng.list()
+    y_t_ECG = mng.list()
     
     #
     a=1
@@ -135,18 +160,21 @@ if __name__ == "__main__":
     
     tiempo0 = time.time() # Tiempo inicial
     
-    tarea1 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.05, 0.1, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
-    tarea2 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.1, 0.05, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
-    tarea3 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_5Arr_Duerme_Ini, args = (tiempo0, 3, 10, 60, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR))
+    tarea1 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.1, 0.1, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
+    tarea2 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.1, 0.1, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
+    tarea3 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 3, 0.01, 0.01, CogerGuardarDatosECG, y_ECG, y_t_ECG))
+    tarea4 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_7Arr_Duerme_Ini, args = (tiempo0, 4, 10, 61, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR, y_ECG, y_t_ECG))
 
     
     tarea1.start()
     tarea2.start()
     tarea3.start()
+    tarea4.start()
     
     tarea1.join()
     tarea2.join()
     tarea3.join()
+    tarea4.join()
     
     
     ###################################################

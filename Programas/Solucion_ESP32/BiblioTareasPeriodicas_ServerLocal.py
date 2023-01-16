@@ -54,7 +54,7 @@ def Tarea_Periodica_Sensores_2Arr (tiempo_inicio, Identificador, Periodo, Plazo,
              #   print( Identificador, ": ", len(array1))
         print(Identificador," = ", time.time()-tiempo_inicio-0.1) #"Tiempo Tardado en la Tarea ", 
 
-def Tarea_Periodica_Sensores_7Arr_Duerme_Ini (tiempo_inicio, Identificador, Periodo, Plazo, Funcion, array1, array2, arrayT, array3, array2T, array4, array3T):
+def Tarea_Periodica_Sensores_5Arr_Duerme_Ini (tiempo_inicio, Identificador, Periodo, Plazo, Funcion, array1, array2, arrayT, array3, array2T):
     
     time.sleep(0.15 - (time.time() - tiempo_inicio) + Periodo)
     next_time = time.time()
@@ -71,14 +71,7 @@ def Tarea_Periodica_Sensores_7Arr_Duerme_Ini (tiempo_inicio, Identificador, Peri
             array3[:] = []
             arT2 = array2T[:]
             array2T[:] = []
-
-            ar4 = array4[:]
-            array4[:] = []
-            arT3 = array3T[:]
-            array3T[:] = []
-            
-            
-            Funcion(ar1, ar2, arT1, ar3, arT2, ar4, arT3)
+            Funcion(ar1, ar2, arT1, ar3, arT2)
             if (time.time()-next_time) > Plazo:
             
                 error = error + 1
