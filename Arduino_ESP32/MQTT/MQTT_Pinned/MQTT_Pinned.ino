@@ -15,7 +15,7 @@ const char* password = "delfingiciehu";
 
 // La IP de dónde se encuentra el broker MQTT (Raspberry) --No es estática
         //const char* mqtt_server = "192.168.1.137"; 
-const char* mqtt_server = "192.168.0.104";
+const char* mqtt_server = "192.168.0.100";
 
 // Crando el cliente para el mqtt
 WiFiClient espClient;
@@ -185,14 +185,15 @@ void TareaGSR_code (void* paremeter)
     // Cálculo de la resistencia
     float valorReal = vLeido * (3.3/4096)/39.3142;
 
-    float vResis = (5.0/valorReal+1)*4700*2;
+    float vResis = (5/valorReal-1)*4700;
 
     float vSiem = (1/vResis)*1000000;
     Res_act = String(vSiem,4);
     
-    //Serial.println(Mensaje); 
-    Mensaje = Time + "," + Res_act;  
+    //Serial.println(Res_act); 
+    Mensaje = Time + "," + Res_act;    
     Mensaje.toCharArray(buffer,50);
+    //Serial.print(buffer);
 
     //Serial.println(buffer);
     client.publish("esp32_ima/GSR",buffer); 
