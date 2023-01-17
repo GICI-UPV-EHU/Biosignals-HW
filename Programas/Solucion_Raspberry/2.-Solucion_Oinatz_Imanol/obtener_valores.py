@@ -16,7 +16,7 @@ class GSR_ECG_sensor:
                 self.channel = channel
                 self.adc = Grove_adc.ADC()
         
-        def GSR(self):
+        def GSR_ECG(self):
                 value = self.adc.read(self.channel)
                 return value
 
@@ -31,19 +31,20 @@ def coger_datos_pox():
 def coger_datos_gsr():
 
     gsr = GSR_ECG_sensor(0)
-    GSR_val = gsr.GSR()
-    return(GSR_val)
+    Ratio_val = gsr.GSR_ECG()
+    V_val = 3.3 * Ratio_val/999
+    V_divisor = V_val/21
+    if V_divisor == 0:
+        Val_siem = 0
+    else: 
+        R_gsr = 47000*(5/V_divisor-1)
+        Val_siem = 1/R_gsr*1000000
+    return(Val_siem)
 
 def coger_datos_ecg():
 
     ecg = GSR_ECG_sensor(2)
-    ECG_val = ecg.GSR()
-    v_real  = ECG_val * (3.3/999)/39.3142
-    try :
-        v_resis = (5.0/v_real+1)*4700
-        v_siem  = (1/v_resis)*1000000
-    except(Exception):
-        v_resis = 0
-    return(v_resis)
+    ECG_val = ecg.GSR_ECG()
+    return(ECG_val)
 
 

@@ -161,7 +161,7 @@ if __name__ == "__main__":
     tiempo0 = time.time() # Tiempo inicial
     
     tarea1 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_3Arr, args = (tiempo0, 1, 0.1, 0.1, CogerGuardarDatosPOX, y_Ir,y_Rojo, y_t_POX))
-    tarea2 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 0.1, 0.1, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
+    tarea2 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 2, 1, 1, CogerGuardarDatosGSR, y_GSR, y_t_GSR))
     tarea3 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_2Arr, args = (tiempo0, 3, 0.01, 0.01, CogerGuardarDatosECG, y_ECG, y_t_ECG))
     tarea4 = mp.Process(target = BiblioTareasPeriodicas_ServerLocal.Tarea_Periodica_Sensores_7Arr_Duerme_Ini, args = (tiempo0, 4, 10, 61, coms, y_Ir, y_Rojo, y_t_POX, y_GSR, y_t_GSR, y_ECG, y_t_ECG))
 

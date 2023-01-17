@@ -16,13 +16,15 @@ def insertar_pox(q):
     x=0
     ### Hacemos que se abra y cierre la conexión a la BBDD una única vez para todas las inserts.
     try:
-        connection = psycopg2.connect(user="admin",
-                                      password=cifrado_bbdd.texto_descifrado,
-                                      host="192.168.0.101",
-                                      port="5432",
-                                      database="databio",
-                                      sslmode = 'require',
-                                      sslrootcert = '/home/pi/Desktop/CertificadoSSL/bbdd.crt')
+        #connection = psycopg2.connect(user="admin",
+                                      #password=cifrado_bbdd.texto_descifrado,
+                                      #host="192.168.0.101",
+                                      #port="5432",
+                                      #database="databio",
+                                      #sslmode = 'require',
+                                      #sslrootcert = '/home/pi/Desktop/CertificadoSSL/bbdd.crt')
+        
+        connection = psycopg2.connect(dbname = "data_bio", host = 'localhost', user = 'imanol', password = '0000')
         print("Lanzamos la query...")
         cursor = connection.cursor()
 
@@ -30,7 +32,7 @@ def insertar_pox(q):
         while True:
             # Sacamos cada una línea de la cola FIFO
             linea = []
-            for i in range(100):
+            for i in range(200):
                 linea.append(q.get()) 
             
             # Por cada línea, sacamos ahora los elementos individuales
@@ -43,8 +45,10 @@ def insertar_pox(q):
             # # Insert con execute_batch
             # valores=[(fecha, rojo, infrarrojo)]
             # extras.execute_batch(cursor, postgreSQL_insert_Query, valores, page_size = 100)
-            cursor.executemany("INSERT INTO pox (acq_time, red_val, ir_val) VALUES (%s,%s,%s)" , linea)
-            print("---------------- Tarea COMS  -------------------")
+            
+            #cursor.executemany("INSERT INTO pox (acq_time, red_val, ir_val) VALUES (%s,%s,%s)" , linea)
+            cursor.executemany("INSERT INTO pox (tiempo, sensor_rojo, sensor_infra) VALUES (%s,%s,%s)" , linea)
+            print("---------------- Tarea COMS POX -------------------")
             print("se han subido datos")
             connection.commit()
 
@@ -67,13 +71,15 @@ def insertar_gsr(q):
     x=0
     ### Hacemos que se abra y cierre la conexión a la BBDD una única vez para todas las inserts.
     try:
-        connection = psycopg2.connect(user="admin",
-                                      password=cifrado_bbdd.texto_descifrado,
-                                      host="192.168.0.101",
-                                      port="5432",
-                                      database="databio",
-                                      sslmode = 'require',
-                                      sslrootcert = '/home/pi/Desktop/CertificadoSSL/bbdd.crt')
+        #connection = psycopg2.connect(user="admin",
+                                      #password=cifrado_bbdd.texto_descifrado,
+                                      #host="192.168.0.101",
+                                      #port="5432",
+                                      #database="databio",
+                                      #sslmode = 'require',
+                                      #sslrootcert = '/home/pi/Desktop/CertificadoSSL/bbdd.crt')
+        
+        connection = psycopg2.connect(dbname = "data_bio", host = 'localhost', user = 'imanol', password = '0000')
         print("Lanzamos la query...")
         cursor = connection.cursor()
 
@@ -81,11 +87,12 @@ def insertar_gsr(q):
         while True:
             # Sacamos cada una línea de la cola FIFO
             linea = []
-            for i in range(100):
+            for i in range(50):
                 linea.append(q.get()) 
             
-            cursor.executemany("INSERT INTO gsr (acq_time, gsr_val) VALUES (%s,%s)" , linea)
-            print("---------------- Tarea COMS  -------------------")
+            #cursor.executemany("INSERT INTO gsr (acq_time, gsr_val) VALUES (%s,%s)" , linea)
+            cursor.executemany("INSERT INTO gsr (tiempo, sensor_gsr) VALUES (%s,%s)" , linea)
+            print("---------------- Tarea COMS GSR -------------------")
             print("se han subido datos")
             connection.commit()
 
@@ -108,13 +115,15 @@ def insertar_ecg(q):
     x=0
     ### Hacemos que se abra y cierre la conexión a la BBDD una única vez para todas las inserts.
     try:
-        connection = psycopg2.connect(user="admin",
-                                      password=cifrado_bbdd.texto_descifrado,
-                                      host="192.168.0.101",
-                                      port="5432",
-                                      database="databio",
-                                      sslmode = 'require',
-                                      sslrootcert = '/home/pi/Desktop/CertificadoSSL/bbdd.crt')
+        #connection = psycopg2.connect(user="admin",
+                                      #password=cifrado_bbdd.texto_descifrado,
+                                      #host="192.168.0.101",
+                                      #port="5432",
+                                      #database="databio",
+                                      #sslmode = 'require',
+                                      #sslrootcert = '/home/pi/Desktop/CertificadoSSL/bbdd.crt')
+        
+        connection = psycopg2.connect(dbname = "data_bio", host = 'localhost', user = 'imanol', password = '0000')
         print("Lanzamos la query...")
         cursor = connection.cursor()
 
@@ -122,11 +131,12 @@ def insertar_ecg(q):
         while True:
             # Sacamos cada una línea de la cola FIFO
             linea = []
-            for i in range(100):
+            for i in range(102):
                 linea.append(q.get()) 
             
-            cursor.executemany("INSERT INTO ecg (acq_time, ecg_val) VALUES (%s,%s)" , linea)
-            print("---------------- Tarea COMS  -------------------")
+            #cursor.executemany("INSERT INTO ecg (acq_time, ecg_val) VALUES (%s,%s)" , linea)
+            cursor.executemany("INSERT INTO ecg (tiempo, sensor_ecg) VALUES (%s,%s)" , linea)
+            print("---------------- Tarea COMS ECG -------------------")
             print("se han subido datos")
             connection.commit()
 

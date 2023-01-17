@@ -94,9 +94,9 @@ def main():
     # llenar_buffer = Process(target=generar_buffer, args=(q,))     
        
     t0 = time.time()
-    llenar_bufferPOX = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 0.4,0.3, generar_buffer_pox, q_pox))
-    llenar_bufferGSR = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 1,0.3, generar_buffer_gsr, q_gsr))
-    llenar_bufferECG = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 0.35,0.3, generar_buffer_ecg, q_ecg))
+    llenar_bufferPOX = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 1, 0.4, 0.4, generar_buffer_pox, q_pox))
+    llenar_bufferGSR = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 2,    1,    1, generar_buffer_gsr, q_gsr))
+    llenar_bufferECG = Process(target=BiblioTareasPeriodicas.Tarea_Periodica_Sensores_1Arr, args =(t0, 3, 0.4, 0.4, generar_buffer_ecg, q_ecg))
     #### Vaciado de la cola FIFO 
     envio_bbddPOX = Process(target=connect_bbdd.insertar_pox, args=(q_pox,))
     envio_bbddGSR = Process(target=connect_bbdd.insertar_gsr, args=(q_gsr,))
