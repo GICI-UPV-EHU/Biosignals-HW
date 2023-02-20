@@ -14,7 +14,7 @@ const char* password = "bfxDsZZAF33SAA";  // Contraseña de la red
 // const char* password = "delfingiciehu";
 
 // La IP de dónde se encuentra el broker MQTT (Raspberry) --No es estática
-const char* mqtt_server = "192.168.1.141"; 
+const char* mqtt_server = "192.168.1.138"; 
 // const char* mqtt_server = "192.168.0.104";
 
 // Crando el cliente para el mqtt
@@ -44,7 +44,7 @@ const TickType_t freq_POX = 100; // Se establace una frecuencia de muestreo de 1
 
 // Se designan los nombres para la TareaPOX
 const TickType_t freq_ECG = 10; // Se establace una frecuencia de muestreo de 100Hz
-const int puerto_ECG =39; // El número del puerto al que va conectado la señal ECG
+const int puerto_ECG = 39; // El número del puerto al que va conectado la señal ECG
 
 //----------------------------------------------------------------------------//
 
@@ -171,7 +171,7 @@ void setup()
 
   xTaskCreatePinnedToCore(TareaPOX_code, "Task POX", 4960, NULL, 20, NULL,1); 
   
-  xTaskCreatePinnedToCore(TareaECG_code, "Task POX", 4960, NULL, 30, NULL,0);   
+  xTaskCreatePinnedToCore(TareaECG_code, "Task ECG", 4960, NULL, 30, NULL,0);   
 }
 
 // Código para la ejecución ciclica de la Tarea de la señal GSR
@@ -296,7 +296,7 @@ void TareaECG_code (void* paremeter)
     vTaskDelayUntil(&t_ult, freq_ECG);
 
     Time = printLocalTime();
-    int ECG_val = analogRead(puerto_ECG);
+    ECG_val = analogRead(puerto_ECG);
     Ecg_a = String(ECG_val);
   
     ///////////////////////////////////////
