@@ -12,11 +12,18 @@ Inicialmente estará destinado al trabajo que desarrollará Imanol Ayude en su T
 
 Este repositorio está dividido en 6 carpetas principales:
 
-    - 1.- BBDD - Instrucciones: se trata de una carpeta cuyo único propósito es mostrar las diferentes instrucciones que pueden ser usadas en PostgreSQL.
-    - 2.- Imagenes: se trata de la carpeta que conitene todo tipo de imagenes relacionadas con el proyectoy que han sido usadas en la escritura de la memoria.
-    - 3.- Oinatz: esta carpeta es una copia del GitHub del compañero Oinatz, que ayudó al desarrollo de la solución final.
-    - 4.- Arduino_ESP: en esta carpeta se encuentran los diferentes códigos desarrolados para la ESP32 en todo el proceso de investigación y desarrollo del dispositivo.
-    - 5.- Programas: en esta carpeta se encuentran los diferentes códigos desarrolados para la Raspberry Pi en todo el proceso de investigación y desarrollo del dispositivo.
-    - 6.- Solución: dentro se trata de la carpeta que contiene las soluciones completas desarroladas para las plataformas Raspberry Pi y ESP32
-    - 7.- Words y Excel: dentro de esta carpeta se podrán encontrar tanto los anexos, como la memoría, como los diferentes excel creados en el proceso de investigación.
+    - 1.- BBDD - Instrucciones: se trata de una carpeta cuyo único propósito es mostrar las 
+                                diferentes instrucciones que pueden ser usadas en PostgreSQL.
+    - 2.- Imagenes: se trata de la carpeta que conitene todo tipo de imagenes relacionadas 
+                    con el proyectoy que han sido usadas en la escritura de la memoria.
+    - 3.- Oinatz: esta carpeta es una copia del GitHub del compañero Oinatz, que ayudó 
+                  al desarrollo de la solución final.
+    - 4.- Arduino_ESP: en esta carpeta se encuentran los diferentes códigos desarrolados para
+                       la ESP32 en todo el proceso de investigación y desarrollo del dispositivo.
+    - 5.- Programas: en esta carpeta se encuentran los diferentes códigos desarrolados para 
+                     la Raspberry Pi en todo el proceso de investigación y desarrollo del dispositivo.
+    - 6.- Solución: dentro se trata de la carpeta que contiene las soluciones completas 
+                    desarroladas para las plataformas Raspberry Pi y ESP32
+    - 7.- Words y Excel: dentro de esta carpeta se podrán encontrar tanto los anexos, como la 
+                         memoría, como los diferentes excel creados en el proceso de investigación.
 
