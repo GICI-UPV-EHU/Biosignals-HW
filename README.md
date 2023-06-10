@@ -13,3 +13,4 @@ Inicialmente estará destinado al trabajo que desarrollará Imanol Ayude en su T
 Este repositorio está dividido en 6 carpetas principales:
 
     - Arduino_ESP: En esta carpeta se encuentran los diferentes códigos desarrolados en todo el proceso de investigación y desarrollo del dispositivo
+    - BBDD - Instruccion:
