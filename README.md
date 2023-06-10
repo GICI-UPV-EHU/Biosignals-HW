@@ -12,5 +12,7 @@ Inicialmente estará destinado al trabajo que desarrollará Imanol Ayude en su T
 
 Este repositorio está dividido en 6 carpetas principales:
 
-    - Arduino_ESP: En esta carpeta se encuentran los diferentes códigos desarrolados en todo el proceso de investigación y desarrollo del dispositivo
-    - BBDD - Instruccion:
+    - Arduino_ESP: en esta carpeta se encuentran los diferentes códigos desarrolados en todo el proceso de investigación y desarrollo del dispositivo.
+    - BBDD - Instrucciones: se trata de una carpeta cuyo único propósito es mostrar las diferentes instrucciones que pueden ser usadas en PostgreSQL.
+    - Imagenes: se trata de la carpeta que conitene todo tipo de imagenes relacionadas con el proyectoy que han sido usadas en la escritura de la memoria.
+    -Oinatz: 
