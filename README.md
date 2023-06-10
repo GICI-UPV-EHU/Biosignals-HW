@@ -17,6 +17,6 @@ Este repositorio está dividido en 6 carpetas principales:
     - 3.- Oinatz: esta carpeta es una copia del GitHub del compañero Oinatz, que ayudó al desarrollo de la solución final.
     - 4.- Arduino_ESP: en esta carpeta se encuentran los diferentes códigos desarrolados para la ESP32 en todo el proceso de investigación y desarrollo del dispositivo.
     - 5.- Programas: en esta carpeta se encuentran los diferentes códigos desarrolados para la Raspberry Pi en todo el proceso de investigación y desarrollo del dispositivo.
-    - 6.- Solución: dentro se trata de la carpeta que contiene las soluciones completas desarroladas para las plataformas [Raspberry Pi](url) y [ESP32](url)
+    - 6.- Solución: dentro se trata de la carpeta que contiene las soluciones completas desarroladas para las plataformas Raspberry Pi y ESP32
     - 7.- Words y Excel: dentro de esta carpeta se podrán encontrar tanto los anexos, como la memoría, como los diferentes excel creados en el proceso de investigación.
 
