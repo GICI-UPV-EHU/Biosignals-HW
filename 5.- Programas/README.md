@@ -1,4 +1,4 @@
-#Programas Raspberry Pi
+# Programas Raspberry Pi
 
 En esta carpeta se encuentran todos los programas desarrollados en Raspberry Pi en el proceso de investigación.
 
